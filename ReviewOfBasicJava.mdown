@@ -1,0 +1,140 @@
+# Review of Basic Java
+
+## Term Definitions
+
+###### Class
+a collection of variables called *fields* and functions called *methods*.
+
+*Naming convention:* the name should always start with a capital letter; this signifies to certain compilers (and human readers) that it is a class (or ?); it is a best practice to use CamelCase; class names cannot begin with numbers or contain any spaces.
+
+```java
+class MyClass {
+
+    // declare a Java class
+    
+}
+```
+
+###### Program
+a collection of classes.
+
+###### Variable
+a name (identifier) that points to (references) a location in memory where information associated with that name can be stored. Each variable has a *data type* associated with it, which essentially restricts what that variable is allowed to reference and the operations that can be performed on it.
+
+*Naming convention:* it is a best practice to always start variable names with a lowercase letter and use CamelCase for variable names composed from compound phrases; variable names cannot contain spaces or special characters (except underscores), and cannot begin with numbers; occasionally, Java coders begin certain special variable names (e.g.: private class variables or constants) with an underscore to distinguish them from other variables used throughout their program.
+
+```java
+DataType myVar1; // declare a variable named myVar1 having the data type DataType
+DataType myVar2 = value; // declare a variable of type DataType named myVar2 and initialize 
+						 // it to be value (a stand-in for a valid value of type DataType)
+```
+
+
+###### Field
+a variable that is a member of a class. 
+
+###### Function
+a sequence of packaged instructions that perform a task.
+
+*Naming convention:* it is a best practice to always start variable names with a lowercase letter and use CamelCase for variable names composed from compound phrases; variable names cannot contain spaces or special characters (except underscores), and cannot begin with numbers.
+
+```java
+int myFunction() {
+
+	// declare a function
+
+}
+void myFunction(int myInt) {
+
+	// declare another function that does not return anything
+
+}
+```
+
+###### Method
+a type of function that operates on the fields of a class. 
+
+###### Object
+an instance (or variable) of a class. 
+
+###### Stream
+the flow of data from one place to another. Very often it is required to read input from System.in (also known as stdin, the standard input stream), and write output to System.out (also known as stdout, the standard output stream). In Java, the `Scanner` class is widely used to read input. Once finished reading from an input stream, it is important to close it to avoid a resource leak. 
+
+
+```java
+Scanner scan = new Scanner(System.in); // create a new Scanner object that reads from the System.in 
+									   // stream and can be accessed using the variable name 
+scan.next(); // returns the next token of input
+scan.hasNext(); // returns true if there is another token of input (false otherwise)
+scan.nextLine() // returns the next LINE of input
+scan.hasNextLine(); // returns true if there is another line of iput
+scan.close(); // closes the Scanner object referenced by the scan variable
+```
+
+## Data Types
+
+Java is considered as a *strongly typed* programming language: all variables have a particular data type. Java is also known as a *hybrid* language: it offers both *object types* and *primitive types*.
+
+##### Primitive Types
+the most basic data types. They serve as the building blocks of data manipulation in Java, with only one purpose — containing pure, simple values of a kind. Because these data types are defined into the Java type system by default, they come with a number of operations predefined. We cannot define new operations for such primitive types. 
+
+Category | Type | Size (bits) | Precision | Default Value
+------------ | ------------- | ------------ | -------------
+Textual | byte | 8 | From +127 to -128 | 0
+Textual | char| 16 | All Unicode characters | '\u0000'
+Numeric | short | 16 | From +32,767 to -32,768 | 0
+Numeric | int | 32 | From +2,147,483,647 to -2,147,483,648 | 0
+Numeric | long | 64 | From +9,223,372,036,854,775,807 to -9,223,372,036,854,775,808 | 0L
+Numeric | float | 32 | From 3.402,823,5 E+38 to 1.4 E-45 | 0.0f
+Numeric | double | 64 | From 1.797,693,134,862,315,7 E+308 to 4.9 E-324 | 0.0d
+Other | boolean | 1 | false, true | false
+Other | null | -- | -- | --
+Other | void | -- | -- | --
+Other | String | -- | -- | null
+
+The `String` class is not technically a primitive data type, but considering the special support given to it by the language, we could think of it as such. Enclosing a character string within double quotes automatically creates a new `String` object.
+
+###### Operations
+Simple Assignment Operator `=`
+Arithmetic Operators `+`, `-`, `*`, `/`, `%`
+Unary Operators `+`, `-`, `++`, `--`, `!`
+Equality and Relational Operators `==`, `!=`, `>`, `>=`, `<`, `<=`
+Conditional Operators `&&`, `||`, `?:` (Ternary - shorthand for if-then-else statement)
+Type Comparison Operator `instanceof`
+Bitwise and Bit Shift Operators
+`~`       Unary bitwise complement
+`<<`      Signed left shift
+`>>`      Signed right shift
+`>>>`     Unsigned right shift
+`&`       Bitwise AND
+`^`       Bitwise exclusive OR
+`|`       Bitwise inclusive OR
+
+
+##### Arrays
+container objects that hold a fixed number of values of a single type. The length of an array is established when the array is created. After creation, its length is fixed. Each item in an array is called an element, and each element is accessed by its numerical index. Indexing begins with 0.
+
+```java
+byte[] anArrayOfBytes; // declares an array of bytes
+short[] anArrayOfShorts; // does not actually create an array
+long[] anArrayOfLongs; // tells the compiler that this variable will hold an array of the specified type (long)
+double anArrayOfDoubles[]; // this form is discouraged
+anArrayOfLongs = new long[10]; // create an array of longs
+int[] anArrayOfInts = {100, 200, 300, 400, 500}; // shortcut syntax to create and initialize an array
+```
+
+We can also declare a *multidimensional array* by using two or more sets of brackets, e.g. `int[][]`. Each element, therefore, must be accessed by a corresponding number of index values. In Java, a multidimensional array is an array whose components are themselves arrays. As a consequence, the rows are allowed to vary in length.
+
+###### Operations
+Methods to perform some of the most common manipulations related to arrays:
+* `arraycopy` method of the `System` class
+* `copyOfRange`, `binarySearch`, `equals`, `fill`, `sort`, `parallelSort` methods of the java.util.Arrays class
+
+
+## Control Flow Statements
+
+##### Decision-Making Statements
+
+##### Looping Statements
+
+##### Branching Statements
