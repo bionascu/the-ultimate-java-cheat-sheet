@@ -69,12 +69,12 @@ class ResizableArray {
 
 #### Methods
 
-* Indexing: `E get(int index)` - *O(1)*
-* Setting: `E set(int index, E element)` - *O(1)* (this returns previous element at index)
-* Appending: `boolean add(E e)` - *amortized O(1)* because very rarely we have to resize
-* `int size()` - *O(1)*
+* Indexing: `E get(int index)` - **O(1)**
+* Setting: `E set(int index, E element)` - **O(1)** (this returns previous element at index)
+* Appending: `boolean add(E e)` - **amortized O(1)** because very rarely we have to resize
+* `int size()` - **O(1)**
 * `boolean isEmpty()` - *O(1)*
-* `void clear()` - *O(n)*
+* `void clear()` - **O(n)**
 * `Object clone()` - *O(n)* 
 * `boolean contains(Object o)` - *O(n)*
 * `int indexOf(Object o)` - *O(n)* (this is the index of the first occurence)
