@@ -4,10 +4,26 @@
 
 ### `String`
 
-#### Methods 
+Strings are constant; their values cannot be changed after they are created. String buffers support mutable strings. Because String objects are immutable they can be shared. For example:
+```java
+// These are equivalent:
+String str = "abc";`
+ 
+char data[] = {'a', 'b', 'c'};
+String str = new String(data);
+```
 
+#### Methods 
 * string to int
 * int to string
+* `int compareTo(String anotherString)`
+* `boolean	equals(Object anObject)`
+* `char	charAt(int index)`
+* `char[]	toCharArray()`
+* `String[]	split(String regex)`
+* `String	toLowerCase()`
+* int	hashCode()
+* `int	indexOf(int ch)`
 
 ### `StringBuilder`
 
