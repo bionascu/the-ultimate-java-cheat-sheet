@@ -1,0 +1,41 @@
+
+
+MANY THINGS
+
+GENERINCS
+
+INHERITANCE 
+
+MANY EXAMPLES
+INCLUDE COMPARATOR EXAMPLE HERE
+
+ALSO WHEN TO USE STATIC AND WHEN NOT - what does it mean to instantiate a class???- is it the same as using the constructor? shouldn't be because see node class for example
+
+ALSO 
+PUBLIC VS PRIVATE VS NOTHING
+
+ALSO CLASSES INSIDE CLASSES - HOW TO DEAL WITH PUBLIC/PRIVATE THEN (SEE GAYLE'S VIDEOS - SHE HAS SOME STUFF THERE)
+
+
+### Serializible 
+
+### Synchronization
+When an implementation is not synchronized it means that: If multiple threads access a linked list concurrently, and at least one of the threads modifies the list structurally, it _must_ be synchronized externally. (A structural modification is any operation that adds or deletes one or more elements; merely setting the value of an element is not a structural modification.) This is typically accomplished by synchronizing on some object that naturally encapsulates the list. If no such object exists, the list should be "wrapped" using the Collections.synchronizedList method. This is best done at creation time, to prevent accidental unsynchronized access to the list:
+
+   List list = Collections.synchronizedList(new LinkedList(...));
+
+
+
+### Visibility
+In Java, ordered from most visible to least, there are public, protected, package (default), and private visibilities. This means that if we do not specify it, by default the visibility is package.
+
+```java
+package mytest.myvisibility;
+
+public class MyClass {
+    public int myPublicInt; // visible to all
+    protected myProtectedInt; // visible to subclasses of MyClass and to other members of the mytest.myvisibility package
+    int myPackageInt; // visible only to other members of the mytest.myvisibility package
+    private int myPrivateInt; // visible only to MyClass objects.
+}
+```

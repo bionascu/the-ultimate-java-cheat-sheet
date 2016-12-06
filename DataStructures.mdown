@@ -1,0 +1,678 @@
+# Data Structures
+
+## Strings
+
+### `String`
+
+#### Methods 
+
+* string to int
+* int to string
+
+### `StringBuilder`
+
+#### Methods 
+
+#### Example
+
+## Arrays
+
+Common types here:
+* fixed-size arrays (E.g. `int[] array = new int[10];`, `String[] wordList = new String[10];`)
+* resizable arrays - can grow as needed; use when we don't know the capacity upfront 
+	* `ArrayList`
+	* `Vector`
+
+#### Implementation
+
+```java
+class ResizableArray {
+	private int[] items = new int[10]; // hardcoding here is a bit sloppy
+	private int size = 0;
+
+	public int size() {
+		return size;
+	}
+
+	public void set(int index, item) {
+		if (index < 0 || index >= size) {
+			throw new ArrayIndexOutOfBoundsException(index);
+		}
+		items[index] = item;
+	}
+
+	public void append(int item) {
+		ensureCapacity();
+		items[size] = item;
+		size++;
+	}
+
+	public int get(int index) {
+		if (index < 0 || index >= size) {
+			throw new ArrayIndexOutOfBoundsException(index);
+		}
+		return items[index];
+	}
+
+	private void ensureCapacity() {
+		if (size == items.length) {
+			int[] copy = new int[2 * size]; // create a new array
+			System.arraycopy(items, 0, copy, 0, size); // copy all elements over
+			items = copy; // point items to copy
+		}
+	}
+}
+
+```
+
+### `ArrayList`
+
+#### Methods
+
+* Indexing: `E get(int index)` - *O(1)*
+* Setting: `E set(int index, E element)` - *O(1)* (this returns previous element at index)
+* Appending: `boolean add(E e)` - *amortized O(1)* because very rarely we have to resize
+* `int size()` - *O(1)*
+* `boolean isEmpty()` - *O(1)*
+* `void clear()` - *O(n)*
+* `Object clone()` - *O(n)* 
+* `boolean contains(Object o)` - *O(n)*
+* `int indexOf(Object o)` - *O(n)* (this is the index of the first occurence)
+* `int lastIndexOf(Object o)`  - *O(n)*
+* Adding: `void add(int index, E element)`  - *O(n)* because remaining elements need to be shifted
+* Removing: `E remove(int index)`, `boolean remove(Object o)` - *O(n)* because of the shifting
+* `Object[] toArray()`  - *O(n)*
+
+
+### `Vector`
+
+`Vector` and `ArrayList` are almost equivalent, but generally `ArrayList` is _better_ because: `Vector` is slow as it is thread safe; in comparison `ArrayList` is fast as it is non synchronized.
+
+Similarities: 
+* internally, both hold onto their contents using an Array. 
+Dfiferences
+* Synchronization: access to a Vector is synchronized, whereas access to an ArrayList is not. What this means is that only one thread can call methods on a Vector at a time, and there's a slight overhead in acquiring the lock; this is not the case with an ArrayList. Generally, ArrayList is better: in the single-threaded case it's a better choice, and in the multi-threaded case, we get better control over locking. It does require a little more care on our end, but it's likely what we want. The `Collections.synchronizedList` function can be used with an ArrayList to create a synchronized list, thus getting the equivalent of a Vector.
+* Data growth: a Vector defaults to doubling the size of its array, while the ArrayList increases its array size by 50 percent.
+ 
+## Hash Tables
+
+* A key-value lookup. 
+* The key and the value can be any type of data structure.
+* Hash function
+* Mapping is from key -> hash code -> index (hash code != index)
+* Collisions: Possible for the same key to map to the same hash code, and two different hash codes can map to the same index. Collisions are possible because there is an infinite number of keys and a finite number of hash codes and even fewer indeces (because the array is often much smaller than the number of hascodes). 
+* Collision Resolution: 
+	* Chaining 
+	* Find something else!
+* Getting (and also Containing) and Setting are O(1) assuming we have a "good" hash table (the hash function distributes our values well)
+* *Initial capacity* - *Load factor* tradeoff: The initial capacity is the number of buckets in the hash table at the time it is created. The load factor is a measure of how full the hash table is allowed to get before its capacity is automatically increased. When the number of entries in the hash table exceeds the product of the load factor and the current capacity, the hash table is rehashed (that is, internal data structures are rebuilt) so that the hash table has approximately twice the number of buckets.
+
+
+#### Implementation
+
+```java
+class HashTable {
+	LinkedList<Pair>[] data;
+	boolean put(String key, Person value) {
+		int hashCode = getHashCode(key);
+		int index = convertToIndex(hashCode);
+		LinkedList<Pair> list = data[index];
+		// check for duplicates..
+		list.add(key, value);
+}
+
+
+}
+```
+
+### `HashMap`
+
+- default initial capacity (16) and default load factor (0.75).
+
+#### Methods
+
+* Getting: `V get(Object key)` - *O(1)*
+* Setting: `V put(K key, V value)` - *O(1)*
+* Removing: `V remove(Object key)` - *amortized O(1)*  or O(1+a), where a is the load factor and so depends on how many items are in the slot for the hash key of the removed object.
+* `int size()` - *O(1)*
+* `boolean isEmpty()` - *O(1)*
+* `Set<K> keySet()` - *O(1)* because the returned Set is not a copy of the keys, but a wrapper for the actual HashMap's state
+* Contains Key: `boolean containsKey(Object key)` - *O(1)*
+* Contains Value: `boolean containsValue(Object value)` - *O(n)* because without the key it doesn't know where it is and the algorithm has to go over all the values stored in the map.
+* `void clear()` - *O(n)*
+* `Object clone()` - *O(n)*  (this returns a shallow copy of this HashMap instance: the keys and values themselves are not cloned.)
+* `Collection<V> values()` - *O(n)* on traversal through iterator
+ 
+### `TreeMap`
+
+A Red-Black tree based NavigableMap implementation. The map is sorted according to the natural ordering of its keys, or by a Comparator provided at map creation time, depending on which constructor is used.
+
+#### Methods
+* `containsKey` - *O(logn)*
+* `get` - *O(logn)*
+* `put` - *O(logn)*
+* `remove` - *O(logn)*
+* `K firstKey()`
+* `K lastKey()`
+* `NavigableMap<K,V> descendingMap()`
+* `NavigableSet<K> descendingKeySet()`
+* [...] 
+
+
+## Sets
+
+### `HashSet`
+
+This class implements the Set interface, backed by a hash table (actually a HashMap instance). HashSet stores the objects in _random order_. It makes no guarantees as to the iteration order of the set; in particular, it does not guarantee that the order will remain constant over time. This class permits the null element.
+
+#### Methods
+* `add`- *O(1)*
+* `remove`- *O(1)*
+* `contains`- *O(1)*
+* `size`- *O(1)*
+
+### `TreeSet`
+
+A NavigableSet implementation based on a TreeMap. The elements are ordered using their _natural ordering_, or by a Comparator provided at set creation time, depending on which constructor is used.
+
+#### Methods
+* `add`- *O(logn)*
+* `remove`- *O(logn)*
+* `contains`- *O(logn)*
+ 
+
+## Linked Lists
+
+* Can contain any types of data structures.
+* Elements can be sorted or unsorted.
+* Indexing O(n)
+* Inserion and deletion (at the beginning of the list) O(1)
+* Inserion and deletion (at the end of the list) O(n)
+
+#### Implementation
+
+```java
+public class Node {
+	int data;
+	Node next;
+	public Node(int data) {
+		this.data = data;
+	}
+}
+
+public class LinkedList {
+	Node head;
+
+	public boolean isEmpty() {
+      return head == null;
+   	}
+
+	public void append(int data) {
+		if (head == null) {
+			head = new Node(data);
+			return;
+		}
+		Node current = head;
+		while (current.next != null) {
+			current = current.next;
+		}
+		current.next = new Node(data);
+	}
+
+	public void prepend(int data) {
+		Node newHead = new Node(data);
+		newHead.next = head;
+		head = newHead;
+	}
+	
+	// delete first node that contains data
+	public void delete(int data) {
+		if (head == null) return;
+
+		if (head.data == data) {
+			head = head.next;
+			return;
+		}
+
+		Node current = head;
+		while (current.next != null) {
+			if (current.next.data == data) {
+				current.next = current.next.next;
+				return;
+			}
+			current = current.next;
+		}
+
+	}
+}
+```
+
+## Doubly-Linked Lists
+
+### `LinkedList`
+
+Doubly-linked list implementation of the List and Deque interfaces. Implements all optional list operations. Can act both as a *Stack* and a *Queue*
+
+#### Methods
+* `boolean add(E e)`, `void addLast(E e)` - *O(1)* (*end*)
+* `void add(int index, E element)` - *O(1)*
+* `void addFirst(E e)` - *O(1)*
+* `E getFirst()` - *O(1)*
+* `E getLast()` - *O(1)*
+* `boolean	offer(E e)`, `boolean	offerLast(E e)` - *O(1)* (*tail* = *last*)
+* `boolean	offerFirst(E e)` - *O(1)*
+* `E peek()`, `E peekFirst()` - *O(1)* (*head* = *first*)
+* `E peekLast()` - *O(1)*
+* `E poll()`, `E pollFirst()` - *O(1)* (*head* = *first*)
+* `E pollLast()` - *O(1)*
+* `E pop()` - *O(1)*
+* `void	push(E e)` - *O(1)*
+* `E remove()`, `E	removeFirst()` - *O(1)* (*head* = *first*)
+* `E removeLast()` - *O(1)*
+* `int	size()` - *O(1)*
+* `void	clear()` - *O(n)*
+* `Object clone()` - *O(n)*
+* `Object[]	toArray()` - *O(n)*
+* `E	set(int index, E element)` - *O(n)*
+* `E	get(int index)` - *O(n)*
+* `int	indexOf(Object o)` - *O(n)*
+* `int	lastIndexOf(Object o)` - *O(n)*
+* `boolean	contains(Object o)` - *O(n)*
+* `E remove(int index)`, `boolean removeFirstOccurrence(Object o)`, `boolean removeLastOccurrence(Object o)` - *O(n)*
+ 
+## Stacks
+
+### Implementation
+```java
+public class Stack {
+	private static class Node {
+		private int data;
+		private Node next;
+		private Node(int data) {
+			this.data = data;
+		}
+	}
+
+	private Node top; // add and remove from here
+
+	public boolean isEmpty(){
+		return top == null;
+	}
+
+	public int peek() {
+		// Add null pointer checks
+		return top.data;
+
+	}
+
+	public void push(int data) {
+		Node node = new Node(data);
+		node.next = top;
+		top = node;
+	}
+
+	public int pop() {
+		// Add null pointer checks
+		int data = top.data;
+		top = top.next;
+		return data;
+	}
+}
+
+```
+### `Stack`
+
+#### Methods
+* `E peek()` - *O(1)* (*head* = *first*)
+* `E pop()` - *O(1)*
+* `void	push(E e)` - *O(1)*
+
+
+## Queues
+
+### Implementation
+
+public class Queue {
+	private static class Node {
+		private int data;
+		private Node next;
+		private Node(int data) {
+			this.data = data;
+		}
+	}
+
+	private Node head; // remove from the head
+	private Node tail; // add to the tail
+
+	public boolean isEmpty() {
+		return head == null;
+	}
+
+	public int peek() {
+		// Add null pointer exception
+		return head.data;
+	}
+
+	public void add(int data) {
+		Node node = new Node(data);
+
+		if (tail != null) {
+			tail.next = node;
+		} 
+		tail = node;
+		if (head == null) {
+			head = node
+		}
+
+	}
+
+	public int remove() {
+		// Add null pointer exception
+		int data = head.data;
+		head = head.next;
+		if (head == null) {
+			tail = null;
+		}
+		return data;
+	}
+}
+
+
+### `Queue` - Interface
+
+## Deques (double ended queue)
+
+### Implementation
+
+[work in progress]
+
+### `Deque` - Interface
+
+
+## Trees
+
+## Binary Search Trees
+
+### Implementation
+
+```java
+class Node {
+	int data;
+	Node left;
+	Node right;
+	public Node(int data) {
+		this.data = data;
+	}
+
+	public void insert(int value) {
+		if (value <= data) {
+			if (left == null) {
+				left = new Node(value);
+			}
+			else {
+				left.insert(value);
+			}
+		}
+		else {
+			if (right == null) {
+				right = new Node(value);
+			}
+			else {
+				right.insert(value);
+			}
+		}
+	}
+
+	public boolean contains(int value) {
+		if (value == data) {
+			return true;
+		}
+		else if (value < data) {
+			if (left == null) {
+				return false;
+			}
+			else {
+				return left.contains(value);
+			}
+		}
+		else {
+			if (right == null) {
+				return false;
+			}
+			else {
+				return right.contains(value);
+			}
+		}
+	}
+
+	public void delete(value) {
+
+		// 
+
+
+
+
+
+
+	}
+
+	public void inOrderTraversal() {
+		if (left != null) {
+			left.inOrderTraversal();
+		}
+		System.out.println(data);
+		if (right != null) {
+			right.inOrderTraversal();
+		}
+	}
+
+	public void preOrderTraversal() {
+		System.out.println(data);
+		if (left != null) {
+			left.inOrderTraversal();
+		}
+		if (right != null) {
+			right.inOrderTraversal();
+		}		
+	}
+}
+```
+
+## Heaps
+
+### Implementation
+
+```java
+class minHeap {
+    private int capacity;
+    private int size;
+    int[] items;
+
+    minHeap(int n) {
+        this.capacity = n;
+        this.size = 0;
+        items = new int[n];
+    }
+
+    int getParentIndex(int childIndex) { return (childIndex-1)/2; }
+    int getLeftChildIndex(int parentIndex) { return parentIndex*2 + 1; }
+    int getRightChildIndex(int parentIndex) { return parentIndex*2 + 2; }
+
+    boolean hasParent(int index) { return getParentIndex(index) >= 0;  }
+    boolean hasLeftChild(int index) {return getLeftChildIndex(index) < size; }
+    boolean hasRightChild(int index) {return getRightChildIndex(index) < size; }
+    
+    int parent(int index) { return (hasParent(index)) ? items[getParentIndex(index)] : null; }
+    int leftChild(int index) { return (hasLeftChild(index)) ? items[getLeftChildIndex(index)] : null; }
+    int rightChild(int index) { return (hasRightChild(index)) ? items[getRightChildIndex(index)] : null; }
+
+    void swap(int index1, int index2) {
+        int temp = items[index1];
+        items[index1] = items[index2];
+        items[index2] = temp;
+    }
+
+    void ensureCapacity() {
+        if (size == capacity) {
+            capacity = capacity * 2;
+            items = Arrays.copyOf(items, capacity);
+        }
+    }
+
+    int peek() {
+        if (this.size == 0) throw new IllegalStateException();
+        return items[0];        
+    }
+
+    int extractMin() {
+        if (this.size == 0) throw new IllegalStateException();
+        int min = items[0];
+        items[0] = items[size-1];
+        size--;
+        heapifyDown();
+        return min;
+    }
+    
+    void add(int item) {      
+        ensureCapacity();
+        items[size] = item;
+        size++;
+        heapifyUp();
+    } 
+    
+    void heapifyDown() {
+        int index = 0;   
+        while (hasLeftChild(index)) {          
+            int smallestChildIndex = (hasRightChild(index) && rightChild(index) < leftChild(index)) ? getRightChildIndex(index) : getLeftChildIndex(index);
+            if (items[index] < items[smallestChildIndex])
+                break;
+            else {
+                swap(index, smallestChildIndex);
+                index = smallestChildIndex; 
+            }
+        }
+    }
+
+    void heapifyUp() {
+        int index = size - 1;
+        while (hasParent(index) && parent(index) > items[index]) {
+            swap(index, getParentIndex(index));
+            index = getParentIndex(index);
+        }
+    }
+
+    int getSize() {
+        return this.size;
+    }
+}
+```
+
+```java
+class maxHeap {
+    private int capacity;
+    private int size;
+    int[] items;
+
+    maxHeap(int n) {
+        this.capacity = n;
+        this.size = 0;
+        items = new int[n];
+    }
+
+    int getParentIndex(int childIndex) { return (childIndex-1)/2; }
+    int getLeftChildIndex(int parentIndex) { return parentIndex*2 + 1; }
+    int getRightChildIndex(int parentIndex) { return parentIndex*2 + 2; }
+
+    boolean hasParent(int index) { return getParentIndex(index) >= 0;  }
+    boolean hasLeftChild(int index) {return getLeftChildIndex(index) < size; }
+    boolean hasRightChild(int index) {return getRightChildIndex(index) < size; }
+    
+    int parent(int index) { return (hasParent(index)) ? items[getParentIndex(index)] : null; }
+    int leftChild(int index) { return (hasLeftChild(index)) ? items[getLeftChildIndex(index)] : null; }
+    int rightChild(int index) { return (hasRightChild(index)) ? items[getRightChildIndex(index)] : null; }
+
+    void swap(int index1, int index2) {
+        int temp = items[index1];
+        items[index1] = items[index2];
+        items[index2] = temp;
+    }
+
+    void ensureCapacity() {
+        if (size == capacity) {
+            capacity = capacity * 2;
+            items = Arrays.copyOf(items, capacity);
+        }
+    }
+
+    int peek() {
+        if (this.size == 0) throw new IllegalStateException();
+        return items[0];        
+    }
+
+    int extractMax() {
+        if (this.size == 0) throw new IllegalStateException();
+        int max = items[0];
+        items[0] = items[size-1];
+        size--;
+        heapifyDown();
+        return max;
+    }
+    
+    void add(int item) {      
+        ensureCapacity();
+        items[size] = item;
+        size++;
+        heapifyUp();
+    } 
+    
+    void heapifyDown() {
+        int index = 0;   
+        while (hasLeftChild(index)) {          
+            int biggestChildIndex = (hasRightChild(index) && rightChild(index) > leftChild(index)) ? getRightChildIndex(index) : getLeftChildIndex(index);
+            if (items[index] > items[biggestChildIndex])
+                break;
+            else {
+                swap(index, biggestChildIndex);
+                index = biggestChildIndex; 
+            }
+        }
+    }
+
+    void heapifyUp() {
+        int index = size - 1;
+        while (hasParent(index) && parent(index) < items[index]) {
+            swap(index, getParentIndex(index));
+            index = getParentIndex(index);
+        }
+    }
+
+    int getSize() {
+        return this.size;
+    }
+}
+```
+
+### `PriorityQueue`
+
+An unbounded priority queue based on a priority heap. The elements of the priority queue are ordered according to their natural ordering, or by a Comparator provided at queue construction time, depending on which constructor is used. A priority queue does not permit null elements.
+
+```java
+PriorityQueue<Integer> minHeap = new PriorityQueue<Integer> ();
+PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer> (new Comparator<Integer> () {
+		public int compare(Integer a, Integer b) {
+			return -1 * a.compareTo(b);
+		}
+	});
+```
+
+#### Methods
+
+## Tries
+
+A trie, also called digital tree and sometimes radix tree or prefix tree (as they can be searched by prefixes), is a kind of search tree — an ordered tree data structure that is used to store a dynamic set or associative array where the keys are usually strings.
+
+### Implementation
+
+```java
+
+```

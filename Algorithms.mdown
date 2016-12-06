@@ -1,0 +1,80 @@
+# Algorithms 
+
+## Sorting
+
+### Bubble Sort
+
+| Worst | Average | Best | Space | Notes |
+|-------|---------|------|-------|-------|
+| O(n^2) | O(n^2) | O(n) | O(1) | good when one element maybe changed a bit, when the list is almost entirely sorted |
+
+Bubble sort ...
+
+### Selection Sort
+| Worst | Average | Best | Space | Notes |
+|-------|---------|------|-------|-------|
+| O(n^2) | O(n^2) |    | O(1) |    |
+
+Selection sort divides the array into a sorted (left) and unsorted (right) array and repeatedly selects  the smallest element from the unsorted array and swaps it with the leftmost element, and that element becomes a part of the sorted array.
+
+#### Pseudocode
+
+```
+procedure selection sort 
+   list  : array of items
+   n     : size of list
+
+   for i = 1 to n - 1
+   /* set current element as minimum*/
+      min = i    
+  
+      /* check the element to be minimum */
+
+      for j = i+1 to n 
+         if list[j] < list[min] then
+            min = j;
+         end if
+      end for
+
+      /* swap the minimum element with the current element*/
+      if indexMin != i  then
+         swap list[min] and list[i]
+      end if
+
+   end for
+	
+end procedure
+```
+
+### Insertion Sort
+| Worst | Average | Best | Space | Notes |
+|-------|---------|------|-------|-------|
+| O(n^2) | O(n^2) |     | O(1) |     |
+ 
+Insertion sort searches the array sequentially and takes unsorted items and inserts them into the sorted sub-list to their appropriate place.
+
+#### Pseudocode
+
+
+### Quick Sort
+| Worst | Average | Best | Space | Notes |
+|-------|---------|------|-------|-------|
+| O(n^2) | O(nlogn) | ? | ? | ? |
+ 
+
+Quick sort ...
+
+#### Pseudocode
+
+
+### Merge Sort
+Merge: average and worst O(nlogn) time, 
+
+Merge sort first divides the array into equal halves and then combines them in a sorted manner.
+
+
+### Heap Sort
+
+
+
+
