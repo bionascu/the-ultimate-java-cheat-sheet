@@ -1,23 +1,109 @@
 
 
-MANY THINGS
 
 GENERINCS
 
 INHERITANCE 
 
-MANY EXAMPLES
-INCLUDE COMPARATOR EXAMPLE HERE
-
 ALSO WHEN TO USE STATIC AND WHEN NOT - what does it mean to instantiate a class???- is it the same as using the constructor? shouldn't be because see node class for example
 
-ALSO 
-PUBLIC VS PRIVATE VS NOTHING
 
-ALSO CLASSES INSIDE CLASSES - HOW TO DEAL WITH PUBLIC/PRIVATE THEN (SEE GAYLE'S VIDEOS - SHE HAS SOME STUFF THERE)
+### Abstract Class 
+This type of class can have abstract methods as well as defined methods, but it cannot be instantiated (meaning you cannot create a new instance of it). To use an abstract class, you must create and instantiate a subclass that **extends** the abstract class. Any abstract methods declared in an abstract class must be implemented by its subclasses (unless the subclass is also abstract). 
 
+###  Class variables vs instance variables
+Class variables point to the same (static) variable across all instances of a class, and instance variables have distinct values that vary from instance to instance. 
+
+### Class Constructor
+Creates an instance of a class. A class can have one or more constructors that build different versions of the same type of object. A constructor with no parameters is called a default constructor; it creates an object with default initial values specified by the programmer. A constructor that takes one or more parameters (i.e.: values in parentheses) is called a parameterized constructor. Many languages allow you to have multiple constructors, provided that each constructor takes different types of parameters; these are called overloaded constructors.
+
+
+### Comparable Interface
+Comparable is an public interfaces which is used to impose an natural ordering (if numbers then 1,2,3 or in alphabetical order   'a','b','c' ) of the class that implements it.
+
+### Comparator Interface
+A comparison function, which is used to impose ordering on some collection of objects. To allow precisely control over the sort order , Comparators can be passed to a sort method (e.g Collections.sort()). Certain type of data structures such as TreeSet or TreeMap can also be sorted using Comparator.
+
+[TODO: include comparator example here]
+
+
+### Inheritance
+
+class MySubclass *extends* MySuperclass
+
+```java
+class MySubclass extends MySuperclass{
+    // subclass constructor:
+    MySubclass(String myString){ 
+        // explicit call to superclass constructor:
+        super(myString); 
+    }
+}
+```
+```java
+class MySubclass extends MySuperclass{
+    MySubclass(String myString){
+        // behind-the-scenes implicit call to superclass' default constructor happens
+        
+        // subclass can now initialize superclass instance variable:
+        this.myString = myString; 
+    }
+}
+```
+
+
+Note: If a superclass does not have a default constructor, any subclasses extending it must make an explicit call to one of the superclass' parameterized constructors. 
+
+
+### Interface
+A collection of abstract methods and constants that form a common set of base rules/specifications for those classes that implement it. Much like an abstract class, an interface cannot be instantiated and must be **implemented** by a class. 
+
+
+### Iterator
+An object that implements either the Iterator (or the ListIterator) interface.
+Iterator enables you to cycle through a collection, obtaining or removing elements. ListIterator extends Iterator to allow bidirectional traversal of a list, and the modification of elements.
+
+```java
+import java.util.*;
+public class IteratorDemo {
+
+   public static void main(String args[]) {
+      // Create an array list
+      ArrayList al = new ArrayList();
+      
+      // add elements to the array list
+      al.add("C");
+      al.add("A");
+      al.add("E");
+      al.add("B");
+      al.add("D");
+      al.add("F");
+
+      // Use iterator to display contents of al
+      System.out.print("Original contents of al: ");
+      Iterator itr = al.iterator();
+      
+      while(itr.hasNext()) {
+         Object element = itr.next();
+         System.out.print(element + " ");
+      }
+      System.out.println();
+  }
+}
+```
+
+### Generics
+
+```java
+public static <T> void printArray(T[] generic){
+    for(T element : generic) {
+        System.out.println(element); 
+    }
+}
+```
 
 ### Serializible 
+Means that instances of the class can be turned into a byte-stream (for example, to be saved to a file) and then converted back into classes again. This reloading could happen in a different instance of the program, or even on a different machine.
 
 ### Synchronization
 When an implementation is not synchronized it means that: If multiple threads access a linked list concurrently, and at least one of the threads modifies the list structurally, it _must_ be synchronized externally. (A structural modification is any operation that adds or deletes one or more elements; merely setting the value of an element is not a structural modification.) This is typically accomplished by synchronizing on some object that naturally encapsulates the list. If no such object exists, the list should be "wrapped" using the Collections.synchronizedList method. This is best done at creation time, to prevent accidental unsynchronized access to the list:
@@ -39,3 +125,11 @@ public class MyClass {
     private int myPrivateInt; // visible only to MyClass objects.
 }
 ```
+
+## Some other theoretical definitions
+
+### P versus NP problem
+**P** - the general class of questions for which some algorithm can provide an answer in polynomial time
+**NP** - "nondeterministic polynomial" - the class of questions for which an answer can be verified in polynomial time
+**NPC** -  "NP-complete" - problems that are harder to compute than to verify: they could not be solved in polynomial time, but the answer could be verified in polynomial time
+**NP-hard** - a class of problems that are, informally, "at least as hard as the hardest problems in NP."

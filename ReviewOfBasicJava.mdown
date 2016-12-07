@@ -157,4 +157,56 @@ for (int elem : arrayOfInts) {
 
 ### Branching Statements
 
-##
+## Math
+
+`Math.random()` (between 0 and 1)
+`Math.ceil(double a)`
+`Math.floor(double a`
+`Math.sqrt(double a)`
+`Math.max(int a, int b)` (works for long, int, float, double)
+`Math.pow(double a, double b)`
+`Math.exp(double a)`
+
+## Error Handling
+
+```java
+        try {
+            int n = Integer.parseInt(s);
+            System.out.println(n);
+        }
+        catch(Exception e) {
+            System.out.println("Bad String");
+        }
+```
+### Propagating Exceptions 
+
+```java
+class PropagatedException {
+
+    void example() throws Exception{
+        throw new Exception("This exception will always be thrown.");
+    }
+    
+    public static void main(String[] args) {
+        PropagatedException p = new PropagatedException();
+        try{
+            p.example();
+        }
+        catch(Exception e){
+            System.err.println( e.getClass().getSimpleName() + ": " + e.getMessage() );
+        }
+    }
+}
+```
+
+## Regular Expressions
+
+```java
+String myRegEx = ".+@gmail\\.com$"; 
+Pattern p = Pattern.compile(myRegEx);
+String firstName = in.next();
+String emailID = in.next();
+Matcher m = p.matcher(emailID);
+if (m.matches())
+  names.add(firstName);
+```

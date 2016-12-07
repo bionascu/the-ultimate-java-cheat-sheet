@@ -76,5 +76,12 @@ Merge sort first divides the array into equal halves and then combines them in a
 ### Heap Sort
 
 
+## Search
 
+### Binary Search
+
+#### Implementation
+
+#### Java
+- find in documentation
 

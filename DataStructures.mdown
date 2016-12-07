@@ -14,18 +14,21 @@ String str = new String(data);
 ```
 
 #### Methods 
-* string to int
+* `int 		Integer.parseInt(s)`
 * int to string
-* `int compareTo(String anotherString)`
+* `int 		compareTo(String anotherString)`
 * `boolean	equals(Object anObject)`
-* `char	charAt(int index)`
+* `char		charAt(int index)`
 * `char[]	toCharArray()`
+* `String 	substring(int beginIndex, int endIndex)`
 * `String[]	split(String regex)`
 * `String	toLowerCase()`
-* int	hashCode()
-* `int	indexOf(int ch)`
+* `int		hashCode()`
+* `int		indexOf(int ch)`
 
 ### `StringBuilder`
+
+
 
 #### Methods 
 
@@ -690,5 +693,103 @@ A trie, also called digital tree and sometimes radix tree or prefix tree (as the
 ### Implementation
 
 ```java
+class Node {
+    char letter;
+    HashMap<Character, Node> children; 
+    int leafCount = 0;
+    // boolean isWord = false;
+
+    public Node(char letter) {
+        this.letter = letter;
+        this.children = new HashMap<Character, Node>();
+    }
+    
+    // Inserts node (letter) and returns pointer to the node
+    public Node insert(char letter) {
+        if (!this.children.containsKey(letter))
+            this.children.put(letter, new Node(letter));
+        return this.children.get(letter);            
+    }
+
+    // If the letter is found among the children of the node, return it, otherwise return null
+    public Node contains(char letter) {
+        if (this.children.containsKey(letter))
+            return this.children.get(letter);
+        else
+            return null;
+    }
+}
+
+public class Solution {
+    
+    // This is the root of the trie
+    private static Node trie = new Node('*');
+
+    public static void printTrie(Node root) {
+        System.out.print(root.letter + " - ");
+        for (Node child : root.children.values()) {
+            printTrie(child);
+            System.out.println("");
+        }       
+    }
+
+    public static void add(String contact) {
+        
+        char[] letters = contact.toCharArray();
+        Node temp = trie;
+        int i = 0;
+
+        while (i < letters.length) {
+            temp.leafCount++;
+            Node child = temp.contains(letters[i]);
+            if (child != null) {
+                temp = child;
+            }
+            else {
+                temp = temp.insert(letters[i]);
+            }
+            i++;
+        }
+        // Insert '*' to mark end of word
+        temp.insert('*');
+        temp.leafCount++;
+    }
+     
+    public static void find(String contact) {
+        
+        char[] letters = contact.toCharArray();
+        Node temp = trie;
+        int i = 0;
+    
+        while (temp != null && i < letters.length) {
+            temp = temp.contains(letters[i]);
+            i++;
+        }    
+        // If contact found, this will basically return the number of children of the node
+        if (temp != null)
+            System.out.println(temp.leafCount);
+        else
+            System.out.println(0);     
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        for(int a0 = 0; a0 < n; a0++){
+            String op = in.next();
+            String contact = in.next();
+            
+            if (op.compareTo("add") == 0) {
+                add(contact);
+                //printTrie(trie);
+            }
+            else if (op.compareTo("find") == 0)
+                find(contact);
+            else
+                System.out.println("Invalid operation");
+        }
+        in.close();
+    }
+}
 
 ```
