@@ -13,7 +13,6 @@ Contents:
 
 TODO:
 
-WEEKEND:
 * ADD FUNCTIONS TO EACH TYPE AND THEIR COMPLEXITIES (FIND A WAY TO NICELY FORMAT COMPLEXITY)
 * go through everything I learned so far and make a summary
 
@@ -22,5 +21,6 @@ WEEKEND:
 * string to int https://www.mkyong.com/java/java-convert-string-to-int/
 * int to string: see corresp hakercode challenge and imp details at https://stackoverflow.com/questions/3930210/java-int-to-string-integer-tostringi-vs-new-integeri-tostring
 * 
-
+* test pull requests
+* second commit on the PR
 * give credits to hacker rank, oracle tutorial, wikibooks, stackoverflow
